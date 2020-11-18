@@ -1,10 +1,11 @@
-require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const chalk = require("chalk");
+
 const app = express();
 app.set("view engine", "ejs");
+require("dotenv").config();
 
 const { WEB_PORT, MONGODB_URI } = process.env;
 
@@ -18,7 +19,7 @@ mongoose.connection.on("error", (err) => {
   process.exit();
 });
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "resources")));
 app.get("/", (req, res) => {
   res.render("index");
 });
