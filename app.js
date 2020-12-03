@@ -7,7 +7,7 @@ const app = express();
 app.set("view engine", "ejs");
 require("dotenv").config();
 
-const { WEB_PORT, MONGODB_URI } = process.env;
+const { PORT, MONGODB_URI } = process.env;
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 mongoose.connection.on("error", (err) => {
@@ -24,9 +24,9 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.listen(WEB_PORT, () => {
+app.listen(PORT, () => {
   console.log(
-    `Example app listening at http://localhost:${WEB_PORT}`,
+    `Example app listening at http://localhost:${PORT}`,
     chalk.green("✓")
   );
 });
