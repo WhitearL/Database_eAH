@@ -2,3 +2,5 @@
 .vscode
 node_modules
 TMP.md
+auctions.json
+items.json
