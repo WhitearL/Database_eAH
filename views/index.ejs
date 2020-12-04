@@ -1,19 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<link href="/styles.css" rel="stylesheet" />
-		<title>World of Warcraft Online Auction House</title>
-	</head>
-	<body>
-		<%- include("common/header"); -%>
 
-		<%- include("common/navbar"); -%>
+<head>
+    <title>WoW eAH</title>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="/img/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="additionalStyles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-		<h1 align="center">WoW eAH</h1>
-		<h2 align="center">World of Warcraft auctioning</h2>
+</head>
 
+<body>
 
+    <!-- Nav bar -->
+    <%- include('common/navbar') -%>
 
-		<%- include("common/footer") -%>
-	</body>
+    <!-- Main content pane -->
+    <div class="container">
+
+        <div class="page-header">
+            <div class="jumbotron gradient">
+                <h1>WoW eAH</h1>
+                <p>Online World of Warcraft Auction House.</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
 </html>
