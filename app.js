@@ -7,12 +7,19 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const chalk = require("chalk");
+const bodyParser = require('body-parser');
+
+const playerController = require("./controllers/player");
+
 const resourcesDir = "resources";
 
 // App setup
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, resourcesDir)));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database connection
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
@@ -27,6 +34,9 @@ app.get("/", (req, res) => { res.render("index"); });
 app.get("/browse", (req, res) => { res.render("browse"); });
 app.get("/manage", (req, res) => { res.render("manage"); });
 app.get("/analyse", (req, res) => { res.render("analyse"); });
+
+app.get("/createplayer", (req, res) => { res.render("createplayer"); });
+app.post("/createplayer", playerController.createPlayer);
 
 // Serve the page icon.
 var usersFilePath = path.join(__dirname, 'favicon.ico');

@@ -55,6 +55,12 @@ nav { background-color: #394D59; }
     color: white;
 }
 
+.form {
+    background-color: #4D6873;
+    border-color: #121D26;
+    border-radius: 5px;
+}
+
 .jumbotron::after {
     content: '';
     display: block;
