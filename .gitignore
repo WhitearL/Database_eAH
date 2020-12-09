@@ -1,6 +1,8 @@
 .env
 .vscode
 node_modules
+dev_utils
 TMP.md
 auctions.json
 items.json
+players.json
