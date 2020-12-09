@@ -23,16 +23,14 @@ mongoose.connection.on("error", (err) => {
 });
 
 // Routes
-app.get("/", (req, res) => {
-    res.render("index");
-});
+app.get("/", (req, res) => { res.render("index"); });
+app.get("/browse", (req, res) => { res.render("browse"); });
+app.get("/manage", (req, res) => { res.render("manage"); });
+app.get("/analyse", (req, res) => { res.render("analyse"); });
 
-var fs = require('fs');
+// Serve the page icon.
 var usersFilePath = path.join(__dirname, 'favicon.ico');
-app.get('/favicon.ico', function (req, res) {
-    res.send(usersFilePath);
-});
+app.get('/favicon.ico', function (req, res) { res.send(usersFilePath); });
 
-app.listen(PORT, () => {
-    console.log("App listening at http://localhost:${PORT}");
-});
+// Listening
+app.listen(PORT, () => { console.log("App listening at http://localhost:${PORT}"); });
