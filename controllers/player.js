@@ -1,24 +1,21 @@
 const Player = require("../models/Player");
-const PlayerDAO = require("../util/DAO/PlayerDAO");
 
 exports.createPlayer = async (req, res) => {
     try {
-        const player = new Player({
-            playerid: await PlayerDAO.getSavedUserCount() + 1,
-            username: req.body.username,
-            password: req.body.password
-        });
-
+		var playerid = db.yourCollectionName.find().sort({"playerid":-1}).limit(1);
+		
+        const player = new Player({ playerid: req.body.password });
         await player.save();
-        res.send("Player created!")
+        res.redirect('/?message=Player created')
     } catch (e) {
         if (e.errors) {
             console.log(e.errors);
-            res.send("Error creating player.");
+            res.render('create-player', { errors: e.errors })
             return;
         }
-
         console.log(e);
-        return res.status(500).send("Player could not be created.");
+        return res.status(400).send({
+            message: 'Could not save player',
+        });
     }
 }
