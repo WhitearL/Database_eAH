@@ -3,72 +3,125 @@
     https://www.fontspace.com/swansea-font-f5873
 */
 @font-face {
-    font-family: 'Swansea';
-    src: url('fonts/Swansea-q3pd.ttf');
-    font-style: normal;
+  font-family: "Swansea";
+  src: url("fonts/Swansea-q3pd.ttf");
+  font-style: normal;
 }
 
 /* Color Theme Swatches in Hex */
-.dark-1-hex { color: #121D26; }
-.dark-2-hex { color: #394D59; }
-.dark-3-hex { color: #4D6873; }
-.dark-4-hex { color: #C1D4D9; }
-.dark-5-hex { color: #0D0D0D; }
+.dark-1-hex {
+  color: #121d26;
+}
+.dark-2-hex {
+  color: #394d59;
+}
+.dark-3-hex {
+  color: #4d6873;
+}
+.dark-4-hex {
+  color: #c1d4d9;
+}
+.dark-5-hex {
+  color: #0d0d0d;
+}
 
-* {font-family: Swansea !important;}
+* {
+  font-family: Swansea !important;
+}
 
-html, body { background-color: #121D26; color: white;}
+html,
+body {
+  background-color: #121d26;
+  color: white;
+}
 
-a { color:white; background-color: #394D59;}
-a:hover, a:focus { background-color: #4D6873 !important; color:white;}
+a {
+  color: white;
+  background-color: #394d59;
+}
+a:hover,
+a:focus {
+  background-color: #4d6873 !important;
+  color: white;
+}
 
-nav { background-color: #394D59; }
+nav {
+  background-color: #394d59;
+}
 
-.jumbotrontitle, .jumbotronsubtitle, .panel-body, .panel-heading {
-    text-align: center;
+.jumbotrontitle,
+.jumbotronsubtitle,
+.panel-body,
+.panel-heading {
+  text-align: center;
 }
 
 .panellink:hover a:hover {
-    font-weight: bold;
-    text-decoration:none;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .titlecard {
-    background-color: #4D6873 !important;
-    color: white;
+  background-color: #4d6873 !important;
+  color: white;
 }
 
 .panel-default {
-    border-color: #121D26 !important;
-    border-radius: 10px;
+  border-color: #121d26 !important;
+  border-radius: 10px;
+}
+
+.gap {
+  margin-right: 10px;
 }
 
 .panel-heading {
-    background-color: #394D59 !important;
-    border-color: #121D26 !important;
-    color: white !important;
+  background-color: #394d59 !important;
+  border-color: #121d26 !important;
+  color: white !important;
 }
 
 .panel-body {
-    background-color: #4D6873;
-    border-color: #121D26;
-    color: white;
+  background-color: #4d6873;
+  border-color: #121d26;
+  color: white;
 }
 
 .form {
-    background-color: #4D6873;
-    border-color: #121D26;
-    border-radius: 5px;
+  background-color: #4d6873;
+  border-color: #121d26;
+  border-radius: 5px;
+}
+
+.moneygold,
+.moneysilver {
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-color: transparent;
+  background-size: 19px 19px;
+  background-position: left;
+  padding-left: 16px;
+}
+
+.moneygold {
+  background-image: url(/img/money-gold.gif);
+}
+
+.moneysilver {
+  background-image: url(/img/money-silver.gif);
+}
+
+.btnspan {
+  width: 100%;
 }
 
 .jumbotron::after {
-    content: '';
-    display: block;
-    position: relative;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: .4;
+  content: "";
+  display: block;
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.4;
 }
-

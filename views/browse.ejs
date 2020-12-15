@@ -19,8 +19,60 @@
     <%- include('common/navbar') -%>
 
     <!-- Main content pane -->
-    <div class="container">
+    <div class="container-fluid">
+        <div class="row container-fluid">
+            
+            <!-- Purchase pane -->
+            <div class="col col-lg-3 gap panel-body form">
+                <h1>Purchase</h1>
+                <div class="form">
 
+                    <!-- Item name readonly field -->
+                    <div class="form-group">
+                        <label for="itemname">Item Name</label>
+                        <input class="form-control" id="itemname" name="itemname" placeholder="Item Name" readonly/>
+                    </div>
+
+                    <!-- Unit price readonly field -->
+                    <div class="form-group">
+                        <label for="unitprice">Unit Price</label>
+                        <div class="input-group">
+                            <input class="form-control" id="unitpriceg" name="unitpriceg" placeholder="Gold" readonly />
+                            <span class="input-group-addon moneygold"></span>
+                            <input class="form-control" id="unitprices" name="unitprices" placeholder="Silver" readonly />
+                            <span class="input-group-addon moneysilver"></span>
+                        </div>
+                    </div>
+
+                    <!-- Quantity field -->
+                    <div class="form-group">
+                        <label for="qty">Quantity</label>
+                        <input class="form-control" id="qty" name="qty" placeholder="QTY" />
+                    </div>
+
+                    <!-- Total price readonly field -->
+                    <div class="form-group">
+                        <label for="total">Total</label>
+                        <div class="input-group">
+                            <input class="form-control" id="totalg" name="totalg" placeholder="Gold" readonly />
+                            <span class="input-group-addon moneygold"></span>
+                            <input class="form-control" id="totals" name="totals" placeholder="Silver" readonly />
+                            <span class="input-group-addon moneysilver"></span>
+                        </div>
+                    </div>
+         
+                    <!-- Submit button -->
+                    <button type="submit" class="btnspan btn btn-primary" onclick="">Submit</button>
+                    <p id="message"></p>
+                </div>
+            </div>
+
+            <!-- Auctions pane -->
+            <div class="col col-lg-8 panel-body form">
+                
+            </div>
+
+        </div>
     </div>
 
 </body>
