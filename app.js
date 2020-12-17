@@ -9,8 +9,6 @@ const mongoose = require("mongoose");
 const chalk = require("chalk");
 const bodyParser = require("body-parser");
 
-const playerController = require("./controllers/player");
-
 const resourcesDir = "resources";
 
 // App setup
@@ -29,13 +27,14 @@ mongoose.connection.on("error", (err) => {
   process.exit();
 });
 
+const playerController = require("./controllers/player");
+const auctionController = require("./controllers/auction");
+
 // Routes
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.get("/browse", (req, res) => {
-  res.render("browse");
-});
+app.get("/browse", auctionController.listAuctions);
 app.get("/manage", (req, res) => {
   res.render("manage");
 });
@@ -43,6 +42,7 @@ app.get("/analyse", (req, res) => {
   res.render("analyse");
 });
 
+// Create player post and get routes
 app.get("/createplayer", (req, res) => {
   res.render("createplayer");
 });

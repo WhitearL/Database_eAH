@@ -69,12 +69,117 @@
 
             <!-- Auctions pane -->
             <div class="col col-lg-8 panel-body form">
-                
-            </div>
+                <% auctions.forEach(auction => { %>
+                    <div>
+                        <table style="width:100%">
+                            <tr class="rowline">
+                                <td class="auctionpart">
+                                    <div class="dark-2-hex">Auction ID: <%= auction.player %></div>
+                                    </div>
+                                </td>
+                                <td class="auctionpart">
+                                    <div class="dark-2-hex">Player ID: <%= auction.playerid %></div>
+                                </td>
+                                <td class="auctionpart">
+                                    <div class="dark-2-hex">Item ID: <%= auction.itemid %></div>
+                                </td>
+                                <td class="auctionpart">
+                                    <div class="dark-2-hex">Buyout: <%= auction.buyout %></div>
+                                </td>
+                                <td class="auctionpart">
+                                    <button class="btnspan btn btn-primary">Select</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                        
+                <% }); %>
 
+                <div class="panel-body">
+                    <nav>
+                        <ul class="pagination">
+                            <% if (currentPage===1) { %>
+                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+                            <% } %>
+                            <% if (currentPage> 1) { %>
+                                <li class="page-item"><a class="page-link" href="/browse">First</a></li>
+                            <% } %>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 10 : currentPage + 1 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 9 : currentPage + 2 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 8 : currentPage + 3 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 7 : currentPage + 4 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 6 : currentPage + 5 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 5 : currentPage + 6 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 4 : currentPage + 7 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 3 : currentPage + 8 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 2 : currentPage + 9 %>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %>">
+                                    <%= currentPage===numberOfPages ? currentPage - 1 : currentPage + 10 %>
+                                </a>
+                            </li>
+                            <% if (currentPage===numberOfPages) { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="">Last</a>
+                                </li>
+                            <% } %>
+                            <% if (currentPage < numberOfPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="/browse?page=<%= numberOfPages %>">Last</a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 
 </body>
-
 </html>
