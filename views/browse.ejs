@@ -1,185 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>WoW eAH</title>
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="/img/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="additionalStyles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<head>
+		<title>WoW eAH</title>
+		<link rel="icon" type="image/png" href="/img/favicon.ico" />
+		<link rel="stylesheet" href="additionalStyles.css">
+		<script src="/script/AuctionPurchaseHandler.js"></script>
+	</head>
 
-</head>
+	<body align="center">
 
-<body>
+		<%- include("common/navbar") -%>
 
-    <!-- Nav bar -->
-    <%- include('common/navbar') -%>
+		<!-- Response message display tag -->
+		<h2 id="response"></h2>
 
-    <!-- Main content pane -->
-    <div class="container-fluid">
-        <div class="row container-fluid">
-            
-            <!-- Purchase pane -->
-            <div class="col col-lg-3 gap panel-body form">
-                <h1>Purchase</h1>
-                <div class="form">
+		<!-- Purchase form -->
+		<table align="center" >
+			<h1 align="center">Purchase</h1>
+		
+			<!-- Item name readonly field -->
+			<tr>
+				<td><label for="itemname">Item Name</label></td>
+				<td colspan="4"><input colspan="4" id="itemname" name="itemname" placeholder="Item Name" readonly /></td>
+			</tr>
+			
+			<!-- Unit price readonly field -->
+			<tr>
+				<td><label for="unitprice">Unit Price</label></td>
+				<td><input id="unitpriceg" name="unitpriceg" placeholder="Gold" readonly /></td>
+				<td><img src="/img/money-gold.gif"/></td>
+				
+				<td><input id="unitprices" name="unitprices" placeholder="Silver" readonly /></td>
+				<td><img src="/img/money-silver.gif"/></td>
+			</tr>
+			
+			<!-- Quantity field -->
+			<tr>		
+				<td><label for="qty">Quantity</label></td>
+				<td><input id="qty" name="qty" placeholder="QTY" /></td>
+			</tr>
+			
+			<!-- Total price readonly field -->
+			<tr>
+				<td><label for="total">Total</label></td>
+				<td><input id="totalg" name="totalg" placeholder="Gold" readonly /></td>
+				<td><img src="/img/money-gold.gif"/></td>
+				
+				<td><input id="totals" name="totals" placeholder="Silver" readonly /></td>
+				<td><img src="/img/money-silver.gif"/></td>
+			</tr>
+		</table>
 
-                    <!-- Item name readonly field -->
-                    <div class="form-group">
-                        <label for="itemname">Item Name</label>
-                        <input class="form-control" id="itemname" name="itemname" placeholder="Item Name" readonly/>
-                    </div>
+		<!-- Submit button -->
+		<div style="text-align: center;"><button type="submit" id="btnBuy" value="" onclick="">Buy</button></div>
+		<p align="center" id="message"></p>
+		
+		<!-- Auctions pane -->
+		<table align="center" style="width:70%">
+		
+			<thead align="left">
+				<th>Auction ID</th>
+				<th>Player</th>
+				<th>Item</th>
+				<th>Quantity</th>
+				<th>Buyout</th>
+			</thead>
+		
+			<% auctions.forEach(auction => { %>	
+					<tr>
+					
+						<td>
+							<div><p><%= auction.auctionid %></p></div>
+						</td>
+						<td>
+							<div><%= auction.player[0].username %> (<%= auction.playerid %>)</div>
+						</td>
+						<td>
+							<div><a href="<%= auction.item[0].url %>"><%= auction.item[0].name %> (<%= auction.itemid %>)</a></div>
+						</td>
+						<td>
+							<div><%= auction.quantity %></div>
+						</td>
+						<td>
+							<div><%= auction.buyout %> <img src="/img/money-gold.gif"/></div>
+						</td>
+						<td>
+							<div style="text-align: center;"><button type="submit" value="<%=auction.auctionid%>" onclick="getAuction(this.value)">Buyout</button></div>
+						</td>
+					</tr>
+						 
+			<% }); %>
+		</table> 
 
-                    <!-- Unit price readonly field -->
-                    <div class="form-group">
-                        <label for="unitprice">Unit Price</label>
-                        <div class="input-group">
-                            <input class="form-control" id="unitpriceg" name="unitpriceg" placeholder="Gold" readonly />
-                            <span class="input-group-addon moneygold"></span>
-                            <input class="form-control" id="unitprices" name="unitprices" placeholder="Silver" readonly />
-                            <span class="input-group-addon moneysilver"></span>
-                        </div>
-                    </div>
+    <div>
+    
 
-                    <!-- Quantity field -->
-                    <div class="form-group">
-                        <label for="qty">Quantity</label>
-                        <input class="form-control" id="qty" name="qty" placeholder="QTY" />
-                    </div>
 
-                    <!-- Total price readonly field -->
-                    <div class="form-group">
-                        <label for="total">Total</label>
-                        <div class="input-group">
-                            <input class="form-control" id="totalg" name="totalg" placeholder="Gold" readonly />
-                            <span class="input-group-addon moneygold"></span>
-                            <input class="form-control" id="totals" name="totals" placeholder="Silver" readonly />
-                            <span class="input-group-addon moneysilver"></span>
-                        </div>
-                    </div>
-         
-                    <!-- Submit button -->
-                    <button type="submit" class="btnspan btn btn-primary" onclick="">Submit</button>
-                    <p id="message"></p>
-                </div>
-            </div>
+			<table align="center">
 
-            <!-- Auctions pane -->
-            <div class="col col-lg-8 panel-body form">
-                <% auctions.forEach(auction => { %>
-                    <div>
-                        <table style="width:100%">
-                            <tr class="rowline">
-                                <td class="auctionpart">
-                                    <div class="dark-2-hex">Auction ID: <%= auction.player %></div>
-                                    </div>
-                                </td>
-                                <td class="auctionpart">
-                                    <div class="dark-2-hex">Player ID: <%= auction.playerid %></div>
-                                </td>
-                                <td class="auctionpart">
-                                    <div class="dark-2-hex">Item ID: <%= auction.itemid %></div>
-                                </td>
-                                <td class="auctionpart">
-                                    <div class="dark-2-hex">Buyout: <%= auction.buyout %></div>
-                                </td>
-                                <td class="auctionpart">
-                                    <button class="btnspan btn btn-primary">Select</button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                        
-                <% }); %>
+				<tr>
+					<% if (currentPage === 1) { %>
+						<td><a href="#">First</a></li>     
+					<% } %>
+					
+					<% if (currentPage > 1) { %>
+						<td><a href="/browse">First</a></li>
+					<% } %>  
 
-                <div class="panel-body">
-                    <nav>
-                        <ul class="pagination">
-                            <% if (currentPage===1) { %>
-                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
-                            <% } %>
-                            <% if (currentPage> 1) { %>
-                                <li class="page-item"><a class="page-link" href="/browse">First</a></li>
-                            <% } %>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 10 : currentPage + 1 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 9 : currentPage + 2 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 8 : currentPage + 3 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 7 : currentPage + 4 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 6 : currentPage + 5 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 5 : currentPage + 6 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 4 : currentPage + 7 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 3 : currentPage + 8 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 2 : currentPage + 9 %>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %>">
-                                    <%= currentPage===numberOfPages ? currentPage - 1 : currentPage + 10 %>
-                                </a>
-                            </li>
-                            <% if (currentPage===numberOfPages) { %>
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="">Last</a>
-                                </li>
-                            <% } %>
-                            <% if (currentPage < numberOfPages) { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="/browse?page=<%= numberOfPages %>">Last</a>
-                                </li>
-                            <% } %>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %>"><%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %>"><%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %>"><%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %>"><%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %>"><%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %>"><%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %>"><%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %>"><%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %>"><%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %></a></td>
+					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %>"><%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %></a></td>
+
+					<% if (currentPage === numberOfPages) { %>
+						<td><a href="">Last</a></td>     
+					<% } %>  
+
+					<% if (currentPage < numberOfPages) { %>
+						<td><a href="/browse?page=<%= numberOfPages %>">Last</a></td>
+					<% } %>  
+				</tr>
+	
+			</table>
+			
     </div>
 
-</body>
+	</body>
 </html>

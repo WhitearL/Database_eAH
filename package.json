@@ -1,31 +1,40 @@
 {
-    "name": "wow-eah",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "nodemon": "^2.0.5"
-    },
-    "dependencies": {
-        "bcrypt": "^5.0.0",
-        "chalk": "^4.1.0",
-        "dotenv": "^8.2.0",
-        "ejs": "^3.1.5",
-        "express": "^4.17.1",
-        "loading-cli": "^1.1.0",
-        "md5": "^2.3.0",
-        "mongodb": "^3.6.2",
-        "mongoose": "^5.10.10",
-        "moniker": "^0.1.2"
-    },
-    "engines": {
-        "node": "14.x"
-    },
-    "scripts": {
-        "dev": "nodemon app.js",
-        "start": "node app.js"
-    }
+  "name": "wow-eah",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.5"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "chalk": "^4.1.0",
+    "cheerio": "^1.0.0-rc.5",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "loading-cli": "^1.1.0",
+    "md5": "^2.3.0",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.10",
+    "moniker": "^0.1.2"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WhitearL/Database_eAH.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WhitearL/Database_eAH/issues"
+  },
+  "homepage": "https://github.com/WhitearL/Database_eAH#readme",
+  "description": ""
 }

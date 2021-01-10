@@ -29,24 +29,17 @@
   font-family: Swansea !important;
 }
 
-html,
-body {
-  background-color: #121d26;
-  color: white;
-}
-
 a {
-  color: white;
-  background-color: #394d59;
-}
-a:hover,
-a:focus {
-  background-color: #4d6873 !important;
-  color: white;
+	text-decoration: none;
 }
 
-nav {
-  background-color: #394d59;
+a:visited {
+	color:blue;
+}
+
+a:focus, a:hover {
+	font-weight: bold;
+	text-decoration: none;
 }
 
 .jumbotrontitle,
@@ -101,14 +94,6 @@ nav {
   background-size: 19px 19px;
   background-position: left;
   padding-left: 16px;
-}
-
-.moneygold {
-  background-image: url(/img/money-gold.gif);
-}
-
-.moneysilver {
-  background-image: url(/img/money-silver.gif);
 }
 
 .btnspan {

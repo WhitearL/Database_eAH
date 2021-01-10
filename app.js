@@ -15,7 +15,6 @@ const resourcesDir = "resources";
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, resourcesDir)));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,30 +30,23 @@ const playerController = require("./controllers/player");
 const auctionController = require("./controllers/auction");
 
 // Routes
-app.get("/", (req, res) => {
-  res.render("index");
-});
+app.get("/", (req, res) => {res.render("index");});
+
 app.get("/browse", auctionController.listAuctions);
-app.get("/manage", (req, res) => {
-  res.render("manage");
-});
-app.get("/analyse", (req, res) => {
-  res.render("analyse");
-});
+app.get("/manage", (req, res) => {res.render("manage");});
+app.get("/analyse", (req, res) => {res.render("analyse");});
 
 // Create player post and get routes
-app.get("/createplayer", (req, res) => {
-  res.render("createplayer");
-});
+app.get("/createplayer", (req, res) => {res.render("createplayer");});
 app.post("/createplayer", playerController.createPlayer);
+
+// Get auction data route.
+app.get("/auctions/:auctionID", auctionController.getAuction);
+	
 
 // Serve the page icon.
 var usersFilePath = path.join(__dirname, "favicon.ico");
-app.get("/favicon.ico", function (req, res) {
-  res.send(usersFilePath);
-});
+app.get("/favicon.ico", function (req, res) {res.send(usersFilePath);});
 
 // Listening.
-app.listen(PORT, () => {
-  console.log("App listening at http://localhost:${PORT}");
-});
+app.listen(PORT, () => {console.log("App listening at http://localhost:" + PORT);});

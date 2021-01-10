@@ -1,55 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>WoW eAH</title>
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="/img/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="additionalStyles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="/script/UserCreationHandler.js"></script>
-</head>
+	<head>
+		<title>WoW eAH</title>
+		<link rel="icon" type="image/png" href="/img/favicon.ico" />
+		<script src="/script/UserCreationHandler.js"></script>
+	</head>
 
-<body>
+	<body>
 
+		<%- include("common/navbar") -%>
 
+			<!-- Page title -->
+			<div class="page-header">
+				<h1>Sign up</h1>
+				<p>Enter a username and password to sign up!</p>
+			</div>
 
-    <!-- Nav bar -->
-    <%- include('common/navbar') -%>
+			<div>
+				<label for="username">Username</label>
+				<input id="username" name="username" placeholder="Username" />
+			</div>
+			<div>
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" placeholder="Password" />
+			</div>
+			<button type="submit" onclick="submitNewPlayer()">Submit</button>
+			<p id="message"></p>
 
-    <!-- Main content pane -->
-    <div class="container">
-
-        <!-- Page title -->
-        <div class="page-header">
-            <h1 class="jumbotrontitle">Sign up</h1>
-            <p class="jumbotronsubtitle">Enter a username and password to sign up!</p>
-        </div>
-
-        <!-- Link panels row -->
-        <div class="row">
-            <div class="col-lg-offset-4 col-lg-4 col-lg-offset-4">
-                <div class="panel-body form">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input class="form-control" id="username" name="username" placeholder="Username" />
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" name="password"
-                            placeholder="Password" />
-                    </div>
-                    <button type="submit" class="btnspan btn btn-primary" onclick="submitNewPlayer()">Submit</button>
-                    <p id="message"></p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</body>
+	</body>
 
 </html>
