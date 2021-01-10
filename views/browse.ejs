@@ -13,17 +13,18 @@
 		<%- include("common/navbar") -%>
 
 		<!-- Response message display tag -->
-		<h2 id="response"></h2>
+		<h2 align="center" id="response"></h2>
 
 		<!-- Purchase form -->
 		<table align="center" >
 			<h1 align="center">Purchase</h1>
 		
 			<!-- Item name readonly field -->
-			<tr>
-				<td><label for="itemname">Item Name</label></td>
-				<td colspan="4"><input id="itemname" name="itemname" placeholder="Item Name" readonly /></td>
-			</tr>
+			
+			<div style="text-align: center;">
+				<b><label for="itemname">Item Name</label></b><br>
+				<input style="width: 350px; text-align:center;" id="itemname" name="itemname" placeholder="Item Name" readonly />
+			</div>
 			
 			<!-- Unit price readonly field -->
 			<tr>
@@ -53,7 +54,7 @@
 		</table>
 
 		<!-- Submit button -->
-		<div style="text-align: center;"><button type="submit" id="btnBuy" value="" onclick="">Buy</button></div>
+		<div style="text-align: center;"><button type="submit" id="btnBuy" value="" onclick="makePurchaseRequest(this.value)">Buy</button></div>
 		<p align="center" id="message"></p>
 		
 		<!-- Auctions pane -->
@@ -68,7 +69,7 @@
 			</thead>
 		
 			<% auctions.forEach(auction => { %>	
-					<tr>
+					<tr id="trID<%=auction.auctionid%>">
 					
 						<td>
 							<div><p><%= auction.auctionid %></p></div>

@@ -1,5 +1,8 @@
 const AUCTION_ID_FIELD = "auctionID";
 const GET_AUCTION_ROUTE = "/auctions/:auctionID";
+const BUY_AUCTION_ROUTE = "/auctions/buy/:auctionID";
+
+var callbackAuctionID = 0;
 
 // Split the decimal value on the decimal. 
 // The value before is the gold, and the value after is the silver.
@@ -25,7 +28,7 @@ function getAuction(auctionID) {
     var httpRequest = new XMLHttpRequest();
 
     // Read in data from form.
-    var payload = JSON.stringify({ AUCTION_ID_FIELD : auctionID });
+    var payload = JSON.stringify({ "auctionID" : auctionID });
 
     // Specify the callback function.
     httpRequest.addEventListener("load", handleGetAuctionResponse);
@@ -84,4 +87,38 @@ function handleGetAuctionResponse(response) {
 }
 
 function makePurchaseRequest(auctionID) {
+	
+	// Reset output message.
+    document.getElementById('message').innerHTML = "";
+
+    // XML HTTP request object.
+    var httpRequest = new XMLHttpRequest();
+
+    // Read in data from form.
+    var payload = JSON.stringify({ "auctionID" : auctionID });
+
+	callbackAuctionID = auctionID;
+
+    // Specify the callback function.
+    httpRequest.addEventListener("load", handlePurchaseRequestResponse);
+
+	var route = BUY_AUCTION_ROUTE.replace(":auctionID", auctionID);
+
+    // Set header and send payload.
+    httpRequest.open('POST', route);
+    httpRequest.setRequestHeader('Content-Type', 'application/json');
+    httpRequest.send(payload);
+	
+}
+
+function handlePurchaseRequestResponse(response) {
+	
+	// Print response.
+	document.getElementById("response").innerHTML = JSON.parse(response.target.responseText).message;
+	
+	// Remove line of auction
+	if (response.status = 200) {		
+		document.getElementById("trID" + callbackAuctionID).remove();
+	}
+	
 }

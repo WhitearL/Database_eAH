@@ -7,7 +7,7 @@ exports.createAuction = async (req, res) => {
 
 // List all auctions paginated
 exports.listAuctions = async (req, res) => {
-
+		
 	const perPage = 10;
 	const limit = parseInt(req.query.limit) || 10; // Make sure to parse the limit to number
 	const page = parseInt(req.query.page) || 1;
@@ -15,7 +15,7 @@ exports.listAuctions = async (req, res) => {
 
 
 	try {
-		const count = await Auction.find({}).count();
+		const count = await Auction.find({}).countDocuments();
 		const numberOfPages = Math.ceil(count / perPage);
 
 		const auctions = await Auction.aggregate([
@@ -31,6 +31,7 @@ exports.listAuctions = async (req, res) => {
 			currentPage: page,
 			message: message
 		});
+
 	} catch (e) {
 		res.status(404).send({ message: "Could not list auctions" });
 	}
@@ -62,12 +63,28 @@ exports.getAuction = async (req, res) => {
 			}
 		])
 
-
-		console.log(matchedAuctions);
-
 		res.send(JSON.stringify(matchedAuctions[0]));
 	} catch (e) {
 		res.send("Could not get auction by ID " + id);
 	}
 }
 
+exports.buyAuction = async (req, res) => {
+	var id = Number(req.params.auctionID);
+
+	try {
+
+		var result = await Auction.deleteOne( { auctionid: id } )
+		
+		console.log("Elements deleted: " + result.deletedCount);
+		
+		if (result.deletedCount >= 1) {
+			res.status(200).send({message: `Auction ${id} purchased`,});
+		} else {
+			res.status(404).send({message: `Could not buy auction ${id}.`,});
+		}
+		
+	} catch (e) {
+		res.status(404).send({message: `Could not buy auction ${id}.`,});
+	}
+}

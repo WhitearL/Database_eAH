@@ -19,7 +19,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database connection
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI, { 
+	// Address recent deprecations
+	useNewUrlParser: true, 
+	useUnifiedTopology: true, 
+	useCreateIndex: true 
+});
+
 mongoose.connection.on("error", (err) => {
   console.error(err);
   console.log("MongoDB connection error. Please ensure MongoDB is running.");
@@ -42,7 +48,9 @@ app.post("/createplayer", playerController.createPlayer);
 
 // Get auction data route.
 app.get("/auctions/:auctionID", auctionController.getAuction);
-	
+
+// Buy auction route (delete)
+app.post("/auctions/buy/:auctionID", auctionController.buyAuction);
 
 // Serve the page icon.
 var usersFilePath = path.join(__dirname, "favicon.ico");

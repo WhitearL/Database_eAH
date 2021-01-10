@@ -31,6 +31,8 @@ function submitNewPlayer() {
 // Callback function for logon requests.
 function handleResponse(response) {
     // Use the DOM to display a message from the server.
-    var responseText = response.target.responseText;
-    document.getElementById('message').innerHTML = responseText;
+	
+	// Print response.
+	document.getElementById("message").innerHTML = JSON.parse(response.target.responseText).message;
+	
 }
