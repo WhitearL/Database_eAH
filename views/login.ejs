@@ -4,7 +4,7 @@
 	<head>
 		<title>WoW eAH</title>
 		<link rel="icon" type="image/png" href="/img/favicon.ico" />
-		<script src="/script/UserCreationHandler.js"></script>
+		<script src="/script/LoginHandler.js"></script>
 		<link rel="stylesheet" href="additionalStyles.css">
 	</head>
 
@@ -16,7 +16,7 @@
 			<!-- Page title -->
 			<div>
 				<h1>Sign up</h1>
-				<p>Enter a username and password to sign up!</p>
+				<p>Enter a username and password to log in</p>
 			</div>
 
 			<table align="center">
@@ -30,7 +30,7 @@
 					<td><input type="password" id="password" name="password" placeholder="Password" /></td>
 				</tr>
 				<tr>
-					<td colspan="2"><button type="submit" onclick="submitNewPlayer()">Submit</button></td>
+					<td colspan="2"><button type="submit" onclick="attemptLogin()">Submit</button></td>
 				</tr>
 				
 			</table>

@@ -1,7 +1,13 @@
 <ul>
-	<li><a href="./">Home</a></li>
-	<li><a href="/browse">Browse</a></li>
-	<li><a href="/manage">Manage</a></li>
-	<li><a href="/analyse">Analyse</a></li>
-	<li><a href="/createplayer">Sign Up</a></li>
+	<li><a href="/">Home</a></li>
+	
+	<% if (player) { %>
+		<li><a href="/browse">Browse</a></li>
+		<li><a href="/manage">Manage</a></li>
+		<li><a href="/analyse">Analyse</a></li>
+		<li><a href="/logout">Log out</a></li>
+	<% } else {%> 
+		<li><a href="/createplayer">Sign Up</a></li>
+		<li><a href="/login">Log in</a></li>
+	<% } %>
 </ul>

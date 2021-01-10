@@ -1,8 +1,8 @@
 const USERNAME_FIELD = "username";
 const PASSWORD_FIELD = "password";
-const CREATE_PLAYER_ROUTE = "/createplayer";
+const LOGIN_ROUTE = "/login";
 
-function submitNewPlayer() {
+function attemptLogin() {
     // Reset output message.
     document.getElementById('message').innerHTML = "";
 
@@ -23,12 +23,12 @@ function submitNewPlayer() {
     httpRequest.addEventListener("load", handleResponse);
 
     // Set header and send payload.
-    httpRequest.open('POST', CREATE_PLAYER_ROUTE);
+    httpRequest.open('POST', LOGIN_ROUTE);
     httpRequest.setRequestHeader('Content-Type', 'application/json');
     httpRequest.send(payload);
 }
 
-// Callback function for player creation requests.
+// Callback function for logon requests.
 function handleResponse(response) {
 	
 	// Login and redirect if valid.

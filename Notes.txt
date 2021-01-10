@@ -1,0 +1,2 @@
+Authentication is done.
+Manage page next.

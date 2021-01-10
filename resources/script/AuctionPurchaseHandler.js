@@ -117,7 +117,7 @@ function handlePurchaseRequestResponse(response) {
 	document.getElementById("response").innerHTML = JSON.parse(response.target.responseText).message;
 	
 	// Remove line of auction
-	if (response.status = 200) {		
+	if (response.target.status == 200) {		
 		document.getElementById("trID" + callbackAuctionID).remove();
 	}
 	

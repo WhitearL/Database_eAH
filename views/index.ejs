@@ -12,12 +12,25 @@
 		<%- include("common/navbar") -%>
 
 		<div style="text-align: center">
+
 			<h1>WoW eAH</h1>
 			<p>Online World of Warcraft Auction House.</p>
 
-			<a href="/browse">Browse Auctions</a><br>
-			<a href="/manage">Manage your auctions</a><br>
-			<a href="/analyse">Analyse Auctions</a>
+			<% if (player) {%>
+
+				<h2>Welcome, <%=player.username%></h2>
+
+				<a href="/browse">Browse Auctions</a><br>
+				<a href="/manage">Manage your auctions</a><br>
+				<a href="/analyse">Analyse Auctions</a>
+				
+			<% } else { %>
+				
+				<a href="/createplayer"><h2>Sign Up</h2></a>
+				<a href="/login"><h2>Log in</h2></a>	
+				
+			<% }%>
+		
 		</div>
 
 	</body>

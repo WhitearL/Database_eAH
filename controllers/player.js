@@ -1,4 +1,5 @@
 const Player = require("../models/Player");
+const bcrypt = require('bcrypt');
 
 exports.createPlayer = async (req, res) => {
     try {
@@ -8,7 +9,7 @@ exports.createPlayer = async (req, res) => {
 		// Check if the username already exists
 		var existingPlayers = await Player.find({username: req.body.username});
 
-		// Find returns an array. If the array has no elements, then no existing users with that name were found.
+		// Find returns an array. If the array has no elements, then no existing players with that name were found.
 		if(existingPlayers.length > 0) {
 			return res.status(500).send({message: "You could not be signed up. That username is already registered.",});
 		} else {			
@@ -24,6 +25,8 @@ exports.createPlayer = async (req, res) => {
 			
 			// Check the player was saved correctly, by checking the save return value against the player we gave it.
 			if (newPlayer === savedPlayer) {
+				//200 OK
+				req.session.playerid = player.playerid; // Set session
 				return res.status(200).send({message: "You have been signed up.",});
 			} else {
 				// Error state.
@@ -34,7 +37,40 @@ exports.createPlayer = async (req, res) => {
     } catch (e) {
         if (e.errors) {
             console.log(e.errors);
-			return res.status(500).send({message: e.errors,});
+			return res.status(500).send({message: e,});
+        }
+        return res.status(400).send({ message: 'Could not save player',});
+    }
+}
+
+exports.login = async (req, res) => {
+    try {
+        const player = await Player.findOne({ username: req.body.username });
+        
+		if (!player) {
+			return res.status(403).send({message: "Player " + req.body.username + " not registered.",});
+        }
+
+        const passwordValid = await bcrypt.compare(req.body.password, player.password);
+        
+        if (passwordValid) {
+			//200 OK
+			req.session.playerid = player.playerid; // Set session
+			return res.status(200).send({
+				message: "Correct username/password.",
+			});
+        } else {
+			//403 forbidden.
+			return res.status(403).send({
+				message: "Incorrect username/password.",
+			});
+		}
+
+
+    } catch (e) {
+        if (e.errors) {
+            console.log(e.errors);
+			return res.status(500).send({message: e,});
         }
         return res.status(400).send({ message: 'Could not save player',});
     }
