@@ -13,19 +13,7 @@ async function main() {
     // Load indicator.
     const load = loading("Importing auction house data.").start();
 
-    db.auctions.aggregate([
-        {
-            $lookup:
-            {
-                from: "items",
-                localField: "itemid",
-                foreignField: "itemid",
-                as: "matcheditems"
-            }
-        },
-        { $match: { itemid: 8182 } }
-    ]).pretty();
-
+	await db.auctions.updateMany({},{$unset: {duration:1}},{multi: true});
 
     // Report success.
     load.stop();

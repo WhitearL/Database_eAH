@@ -4,7 +4,6 @@
 	<head>
 		<title>WoW eAH</title>
 		<link rel="icon" type="image/png" href="/img/favicon.ico" />
-		<link rel="stylesheet" href="additionalStyles.css">
 		<script src="/script/AuctionPurchaseHandler.js"></script>
 	</head>
 
@@ -26,16 +25,6 @@
 				<input style="width: 350px; text-align:center;" id="itemname" name="itemname" placeholder="Item Name" readonly />
 			</div>
 			
-			<!-- Unit price readonly field -->
-			<tr>
-				<td><label for="unitprice">Unit Price</label></td>
-				<td><input id="unitpriceg" name="unitpriceg" placeholder="Gold" readonly /></td>
-				<td><img src="/img/money-gold.gif"/></td>
-				
-				<td><input id="unitprices" name="unitprices" placeholder="Silver" readonly /></td>
-				<td><img src="/img/money-silver.gif"/></td>
-			</tr>
-			
 			<!-- Quantity field -->
 			<tr>		
 				<td><label for="qty">Quantity</label></td>
@@ -54,84 +43,94 @@
 		</table>
 
 		<!-- Submit button -->
-		<div style="text-align: center;"><button type="submit" id="btnBuy" value="" onclick="makePurchaseRequest(this.value)">Buy</button></div>
+		<div style="text-align: center;">
+			<button type="submit" id="btnBuy" value="" onclick="makePurchaseRequest(this.value)">Buy</button>
+		</div>
+		
 		<p align="center" id="message"></p>
 		
 		<!-- Auctions pane -->
-		<table align="center" style="width:70%">
 		
-			<thead align="left">
-				<th>Auction ID</th>
-				<th>Player</th>
-				<th>Item</th>
-				<th>Quantity</th>
-				<th>Buyout</th>
-			</thead>
+						
+		<%  if (auctions.length != 0) { %>
 		
-			<% auctions.forEach(auction => { %>	
-					<tr id="trID<%=auction.auctionid%>">
-					
-						<td>
-							<div><p><%= auction.auctionid %></p></div>
-						</td>
-						<td>
-							<div><%= auction.player[0].username %> (<%= auction.playerid %>)</div>
-						</td>
-						<td>
-							<div><a href="<%= auction.item[0].url %>"><%= auction.item[0].name %> (<%= auction.itemid %>)</a></div>
-						</td>
-						<td>
-							<div><%= auction.quantity %></div>
-						</td>
-						<td>
-							<div><%= auction.buyout %> <img src="/img/money-gold.gif"/></div>
-						</td>
-						<td>
-							<div style="text-align: center;"><button type="submit" value="<%=auction.auctionid%>" onclick="getAuction(this.value)">Buyout</button></div>
-						</td>
-					</tr>
-						 
-			<% }); %>
+				<table align="center" style="width:70%">
+	
+					<thead align="left">
+						<th>Auction ID</th>
+						<th>Player</th>
+						<th>Item</th>
+						<th>Quantity</th>
+						<th>Buyout</th>
+					</thead>
+				
+				<%  auctions.forEach(auction => { %>	
+
+						<tr id="trID<%=auction.auctionid%>">
+						
+							<td>
+								<div><p><%= auction.auctionid %></p></div>
+							</td>
+							<td>
+								<div><%= auction.player[0].username %> (<%= auction.playerid %>)</div>
+							</td>
+							<td>
+								<div><a href="<%= auction.item[0].url %>"><%= auction.item[0].name %> (<%= auction.itemid %>)</a></div>
+							</td>
+							<td>
+								<div><%= auction.quantity %></div>
+							</td>
+							<td>
+								<div><%= (auction.buyout).toFixed(2) %> <img src="/img/money-gold.gif"/></div>
+							</td>
+							<td>
+								<div style="text-align: center;"><button type="submit" value="<%=auction.auctionid%>" onclick="getAuction(this.value)">Buyout</button></div>
+							</td>
+						</tr>
+						 				 
+				<%  }); %>
+				
+				<div>
+					<!-- Pagination -->
+					<table align="center">
+						<tr>
+							<% if (currentPage === 1) { %>
+								<td><a href="#">First</a></li>     
+							<% } %>
+							
+							<% if (currentPage > 1) { %>
+								<td><a href="/browse">First</a></li>
+							<% } %>  
+
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %>"><%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %>"><%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %>"><%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %>"><%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %>"><%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %>"><%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %>"><%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %>"><%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %>"><%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %>"><%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %></a></td>
+
+							<% if (currentPage === numberOfPages) { %>
+								<td><a href="">Last</a></td>     
+							<% } %>  
+
+							<% if (currentPage < numberOfPages) { %>
+								<td><a href="/browse?page=<%= numberOfPages %>">Last</a></td>
+							<% } %>  
+						</tr>
+					</table>			
+				</div>
+				
+		<%
+			} else {
+				%><div style="text-align: center;"><h1>There are no auctions to display.</h1></div><%
+			}
+		%>
 		</table> 
 
-    <div>
-    
-
-
-			<table align="center">
-
-				<tr>
-					<% if (currentPage === 1) { %>
-						<td><a href="#">First</a></li>     
-					<% } %>
-					
-					<% if (currentPage > 1) { %>
-						<td><a href="/browse">First</a></li>
-					<% } %>  
-
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %>"><%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %>"><%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %>"><%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %>"><%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %>"><%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %>"><%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %>"><%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %>"><%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %>"><%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %></a></td>
-					<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %>"><%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %></a></td>
-
-					<% if (currentPage === numberOfPages) { %>
-						<td><a href="">Last</a></td>     
-					<% } %>  
-
-					<% if (currentPage < numberOfPages) { %>
-						<td><a href="/browse?page=<%= numberOfPages %>">Last</a></td>
-					<% } %>  
-				</tr>
-	
-			</table>
-			
-    </div>
 
 	</body>
 </html>

@@ -4,13 +4,137 @@
 	<head>
 		<title>WoW eAH</title>
 		<link rel="icon" type="image/png" href="/img/favicon.ico" />
+		<script src="/script/AuctionManagementHandler.js"></script>
 	</head>
 
-	<body>
+	<body align="center">
 
-		<!-- Nav bar -->
 		<%- include("common/navbar") -%>
 
-	</body>
+		<div style="text-align:center;">
+			<h1>Auction management for <%=player.username%></h1><br>
+			<h2>Create new auction</h2>
+		</div>
 
+		<!-- Create auction form -->
+		<table align="center">
+			<tr>
+				<td><label for="playerid">Player ID</label></td>
+				<td><input type="number" id="playerid" name="playerid" value="<%=player.playerid%>" readonly></td>
+			</tr>
+			
+			<tr>
+				<td><label for="itemid">Item ID</label></td>
+				<td><input type="number" name="itemid" id="itemid" placeholder="WoW Item ID (Integer)" /></td>
+			</tr>
+			
+			<tr>
+				<td><label for="qty">Quantity</label></td>
+				<td><input type="number" name="qty" id="qty" placeholder="QTY (Integer)" /></td>
+			</tr>
+			
+			<!-- Buyout price field -->
+			<tr>
+				<td><label for="buyoutg">Buyout</label></td>
+				
+				<td><input type="number" id="buyoutg" name="buyoutg" placeholder="Gold (Integer)" /></td>
+				<td><img src="/img/money-gold.gif"/></td>
+				
+				<td><input type="number" id="buyouts" name="buyouts" placeholder="Silver (Integer)" /></td>
+				<td><img src="/img/money-silver.gif"/></td>
+			</tr>
+		</table>
+			
+		<!-- Submit button -->
+		<div style="text-align: center;">
+			<button type="submit" id="btnCreate" value="" onclick="createAuction()">Create Auction</button>
+		</div>
+
+
+		
+		<!-- Response message display tag -->
+		<h2 align="center" id="response"></h2>
+		<p align="center" id="message"></p>
+		
+		<!-- Auctions pane -->
+		<%  if (auctions.length != 0) { %>
+		
+				<table align="center" style="width:70%">
+	
+					<thead align="left">
+						<th>Auction ID</th>
+						<th>Player</th>
+						<th>Item</th>
+						<th>Quantity</th>
+						<th>Buyout</th>
+					</thead>
+				
+				<%  auctions.forEach(auction => { %>	
+
+						<tr id="trID<%=auction.auctionid%>">
+						
+							<td>
+								<div><p><%= auction.auctionid %></p></div>
+							</td>
+							<td>
+								<div><%= auction.player[0].username %> (<%= auction.playerid %>)</div>
+							</td>
+							<td>
+								<div><a href="<%= auction.item[0].url %>"><%= auction.item[0].name %> (<%= auction.itemid %>)</a></div>
+							</td>
+							<td>
+								<div><%= auction.quantity %></div>
+							</td>
+							<td>
+								<div><%= (auction.buyout).toFixed(2) %> <img src="/img/money-gold.gif"/></div>
+							</td>
+							<td>
+								<div style="text-align: center;"><button type="submit" value="<%=auction.auctionid%>" onclick="getAuction(this.value)">Buyout</button></div>
+							</td>
+						</tr>
+							
+				<%  }); %> 
+				
+				<div>
+					<!-- Pagination -->
+					<table align="center">
+						<tr>
+							<% if (currentPage === 1) { %>
+								<td><a href="#">First</a></li>     
+							<% } %>
+							
+							<% if (currentPage > 1) { %>
+								<td><a href="/browse">First</a></li>
+							<% } %>  
+
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %>"><%= currentPage === numberOfPages ? currentPage - 10 :  currentPage + 1 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %>"><%= currentPage === numberOfPages ? currentPage - 9 :  currentPage + 2 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %>"><%= currentPage === numberOfPages ? currentPage - 8 :  currentPage + 3 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %>"><%= currentPage === numberOfPages ? currentPage - 7 :  currentPage + 4 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %>"><%= currentPage === numberOfPages ? currentPage - 6 :  currentPage + 5 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %>"><%= currentPage === numberOfPages ? currentPage - 5 :  currentPage + 6 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %>"><%= currentPage === numberOfPages ? currentPage - 4 :  currentPage + 7 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %>"><%= currentPage === numberOfPages ? currentPage - 3 :  currentPage + 8 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %>"><%= currentPage === numberOfPages ? currentPage - 2 :  currentPage + 9 %></a></td>
+							<td><a href="/browse?page=<%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %>"><%= currentPage === numberOfPages ? currentPage - 1 :  currentPage + 10 %></a></td>
+
+							<% if (currentPage === numberOfPages) { %>
+								<td><a href="">Last</a></td>     
+							<% } %>  
+
+							<% if (currentPage < numberOfPages) { %>
+								<td><a href="/browse?page=<%= numberOfPages %>">Last</a></td>
+							<% } %>  
+						</tr>
+					</table>
+				</div>
+				
+		<%
+			} else {
+				%><div style="text-align: center;"><h1>There are no auctions to display.</h1></div><%
+			}
+		%>
+		</table> 
+
+	</body>
 </html>

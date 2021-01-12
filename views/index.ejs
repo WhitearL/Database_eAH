@@ -4,7 +4,6 @@
 	<head>
 		<title>WoW eAH</title>
 		<link rel="icon" type="image/png" href="/img/favicon.ico" />
-		<link rel="stylesheet" href="additionalStyles.css">
 	</head>
 
 	<body>
@@ -21,8 +20,7 @@
 				<h2>Welcome, <%=player.username%></h2>
 
 				<a href="/browse">Browse Auctions</a><br>
-				<a href="/manage">Manage your auctions</a><br>
-				<a href="/analyse">Analyse Auctions</a>
+				<a href="/manage/<%=player.playerid%>">Manage your auctions</a><br>
 				
 			<% } else { %>
 				

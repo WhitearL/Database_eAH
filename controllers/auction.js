@@ -40,6 +40,44 @@ exports.listAuctions = async (req, res) => {
 	}
 };
 
+// List all auctions paginated
+exports.listPlayerAuctions = async (req, res) => {
+	
+	var id = Number(req.params.playerid);
+	
+	if (req.session.playerid && req.params.playerid && (req.session.playerid === id)) {
+		const perPage = 10;
+		const limit = parseInt(req.query.limit) || 10; // Make sure to parse the limit to number
+		const page = parseInt(req.query.page) || 1;
+		const message = req.query.message;
+
+		try {
+			const count = await Auction.find({}).countDocuments();
+			const numberOfPages = Math.ceil(count / perPage);
+
+			const auctions = await Auction.aggregate([
+			
+				{$match:  {playerid : id} },
+				{$lookup: {from: "players", localField: "playerid", foreignField: "playerid", as: "player"},},
+				{$lookup: {from: "items", localField: "itemid", foreignField: "itemid", as: "item"},}
+			
+			]).skip((perPage * page) - perPage).limit(limit);
+
+			res.render("manage", {
+				auctions : auctions,
+				numberOfPages: numberOfPages,
+				currentPage: page,
+				message: message
+			});
+
+		} catch (e) {
+			res.status(404).send({ message: "Could not list auctions" });
+		}
+	} else {
+		res.render("common/loginwarning");
+	}
+};
+
 // Return JSON of auction by id if it exists.
 exports.getAuction = async (req, res) => {
 	var id = Number(req.params.auctionID);
@@ -93,4 +131,69 @@ exports.buyAuction = async (req, res) => {
 	} else {
 		res.render("common/loginwarning");
 	}
+}
+
+exports.deleteAuction = async (req, res) => {
+	
+	if (req.session.playerid) {
+		var id = Number(req.params.auctionID);
+
+		try {
+
+			var result = await Auction.deleteOne( { auctionid: id } );
+			
+			if (result.deletedCount >= 1) {
+				res.status(200).send({message: `Auction ${id} deleted`,});
+			} else {
+				res.status(404).send({message: `Could not delete auction ${id}.`,});
+			}
+			
+		} catch (e) {
+			res.status(404).send({message: `Could not delete auction ${id}.`,});
+		}
+	} else {
+		res.render("common/loginwarning");
+	}
+}
+
+exports.createAuction = async (req, res) => {
+	
+	if (req.session.playerid) {
+
+		try {
+			var latestAuction = await Auction.findOne().sort({"auctionid":-1});
+			var newAuctionID = latestAuction.auctionid + 1;
+
+			// Save as normal.
+			const newAuction = new Auction({ 
+				auctionid: newAuctionID,
+				playerid: req.body.playerid,
+				itemid: req.body.itemid,
+				quantity: req.body.quantity,
+				buyout: req.body.buyout
+			});
+			
+			const savedAuction = await newAuction.save();
+			
+			// Check the player was saved correctly, by checking the save return value against the player we gave it.
+			if (newAuction === savedAuction) {
+				//200 OK
+				return res.status(200).send({message: "Auction " + newAuctionID + " has been created.",});
+			} else {
+				// Error state.
+				return res.status(500).send({message: "Your auction could not be created. Ensure your details are valid.",});
+			}
+			
+		} catch (e) {
+			if (e.errors) {
+				console.log(e.errors);
+				return res.status(500).send({message: e,});
+			}
+			return res.status(400).send({ message: e,});
+		}
+
+	} else {
+		res.render("common/loginwarning");
+	}
+	
 }

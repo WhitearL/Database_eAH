@@ -1,2 +1,9 @@
+[11th]
 Authentication is done.
 Manage page next.
+
+[12th]
+Create auctions done.
+Finish deleting auctions.
+Edit auctions.
+

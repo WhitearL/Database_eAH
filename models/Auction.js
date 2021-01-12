@@ -18,19 +18,9 @@ const auctionSchema = new Schema(
       required: [true, "Item ID is required"],
       unique: false,
     },
-    duration: {
-      type: Number,
-      required: [true, "Duration is required"],
-      unique: false,
-    },
     quantity: {
       type: Number,
       required: [true, "Quantity is required"],
-      unique: false,
-    },
-    minbid: {
-      type: Number,
-      required: false,
       unique: false,
     },
     buyout: {
