@@ -49,9 +49,7 @@
 		<div style="text-align: center;">
 			<button type="submit" id="btnCreate" value="" onclick="createAuction()">Create Auction</button>
 		</div>
-
-
-		
+	
 		<!-- Response message display tag -->
 		<h2 align="center" id="response"></h2>
 		<p align="center" id="message"></p>
@@ -69,7 +67,7 @@
 						<th>Buyout</th>
 					</thead>
 				
-				<%  auctions.forEach(auction => { %>	
+					<%  auctions.forEach(auction => { %>	
 
 						<tr id="trID<%=auction.auctionid%>">
 						
@@ -89,11 +87,11 @@
 								<div><%= (auction.buyout).toFixed(2) %> <img src="/img/money-gold.gif"/></div>
 							</td>
 							<td>
-								<div style="text-align: center;"><button type="submit" value="<%=auction.auctionid%>" onclick="getAuction(this.value)">Buyout</button></div>
+								<div style="text-align: center;"><button type="submit" value="<%=auction.auctionid%>" onclick="makeDeleteRequest(this.value)">Delete</button></div>
 							</td>
 						</tr>
 							
-				<%  }); %> 
+					<%  }); %> 
 				
 				<div>
 					<!-- Pagination -->

@@ -10,14 +10,26 @@ var callbackAuctionID = 0;
 // The value before is the gold, and the value after is the silver.
 // 100 Silver = 1 Gold
 function splitFloat(floatValue) {
-	return floatValue.toString().split('.');
+	var splitFloatArr = floatValue.toString().split('.');
+	
+	if (splitFloatArr[1].toString()[0] == "0") {
+		splitFloatArr[1] = parseInt(splitFloatArr[1].toString().replace("0", ""));
+	}
+	
+	return splitFloatArr;
 }
 
 function joinFloat(goldValue, silverValue) {
-	var strG = goldValue.toString();
-	var strS = silverValue.toString();
 	
-	return +(strG + "." + strS);
+	var buyoutFloat = 0.0;
+	
+	if (silverValue < 10 && silverValue.toString().length == 1) {
+		buyoutFloat = parseFloat(goldValue + "." + "0" + silverValue);
+	} else {
+		buyoutFloat = parseFloat(goldValue + "." + silverValue);
+	}
+	
+	return buyoutFloat;
 }
 
 function isInt(number){
@@ -77,7 +89,7 @@ function makeDeleteRequest(auctionID) {
 	callbackAuctionID = auctionID;
 
     // Specify the callback function.
-    httpRequest.addEventListener("load", handlePurchaseRequestResponse);
+    httpRequest.addEventListener("load", handleDeleteRequestResponse);
 
 	var route = DELETE_AUCTION_ROUTE.replace(":auctionID", auctionID);
 
@@ -96,8 +108,7 @@ function handleDeleteRequestResponse(response) {
 	// Remove line of auction
 	if (response.target.status == 200) {		
 		document.getElementById("trID" + callbackAuctionID).remove();
-	}
-	
+	} 
 }
 
 function createAuction() {
@@ -120,12 +131,18 @@ function createAuction() {
 		var valid = true;
 		var intRegex = new RegExp('^[0-9]\d*$');
 
+		if (buyouts >= 100) {
+			buyouts = 99;
+		} else if (buyouts < 0) {
+			buyouts = 0;
+		} 
+
 		var i;
 		for (i = 0; i < values.length; i++) {
 			if (!Number.isInteger(values[i])) {
 				valid = false;
 			}
-		} 
+		}
 			
 		if (valid) {
 			var buyout = joinFloat(buyoutg, buyouts);

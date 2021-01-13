@@ -8,7 +8,13 @@ var callbackAuctionID = 0;
 // The value before is the gold, and the value after is the silver.
 // 100 Silver = 1 Gold
 function splitFloat(floatValue) {
-	return floatValue.toString().split('.');
+	var splitFloatArr = floatValue.toString().split('.');
+	
+	if (splitFloatArr[1].toString()[0] == "0") {
+		splitFloatArr[1] = parseInt(splitFloatArr[1].toString().replace("0", ""));
+	}
+	
+	return splitFloatArr;
 }
 
 function isInt(number){
