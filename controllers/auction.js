@@ -1,4 +1,5 @@
 const Auction = require("../models/Auction");
+const Item = require("../models/Item");
 
 // Create an auction
 exports.createAuction = async (req, res) => {
@@ -161,30 +162,90 @@ exports.createAuction = async (req, res) => {
 	if (req.session.playerid) {
 
 		try {
-			var latestAuction = await Auction.findOne().sort({"auctionid":-1});
-			var newAuctionID = latestAuction.auctionid + 1;
+			
+			var item = await Item.findOne({"itemid" : req.body.itemid});
+			
+			if (item != null) {
+				var latestAuction = await Auction.findOne().sort({"auctionid":-1});
+				var newAuctionID = latestAuction.auctionid + 1;
 
-			// Save as normal.
-			const newAuction = new Auction({ 
-				auctionid: newAuctionID,
-				playerid: req.body.playerid,
-				itemid: req.body.itemid,
-				quantity: req.body.quantity,
-				buyout: req.body.buyout
-			});
-			
-			const savedAuction = await newAuction.save();
-			
-			// Check the player was saved correctly, by checking the save return value against the player we gave it.
-			if (newAuction === savedAuction) {
-				//200 OK
-				return res.status(200).send({message: "Auction " + newAuctionID + " has been created.",});
+				// Save as normal.
+				const newAuction = new Auction({ 
+					auctionid: newAuctionID,
+					playerid: req.body.playerid,
+					itemid: req.body.itemid,
+					quantity: req.body.quantity,
+					buyout: req.body.buyout
+				});
+				
+				const savedAuction = await newAuction.save();
+				
+				// Check the player was saved correctly, by checking the save return value against the player we gave it.
+				if (newAuction === savedAuction) {
+					//200 OK
+					return res.status(200).send({message: "Auction " + newAuctionID + " has been created.",});
+				} else {
+					// Error state.
+					return res.status(500).send({message: "Your auction could not be created. Ensure your details are valid.",});
+				}
 			} else {
-				// Error state.
-				return res.status(500).send({message: "Your auction could not be created. Ensure your details are valid.",});
+				return res.status(404).send({message: "Item by id " + req.body.itemid + " does not exist",});
 			}
 			
 		} catch (e) {
+			if (e.errors) {
+				console.log(e.errors);
+				return res.status(500).send({message: e,});
+			}
+			return res.status(400).send({ message: e,});
+		}
+
+	} else {
+		res.render("common/loginwarning");
+	}
+	
+}
+
+exports.editAuction = async (req, res) => {
+			
+	if (req.session.playerid) {
+
+		try {
+					
+			var item = await Item.findOne({"itemid" : req.body.itemid});
+				
+			if (item != null) {
+				
+				var before = await Auction.findOne({ "auctionid" : req.params.auctionid });
+						
+				await Auction.updateOne(
+					{ 
+						"auctionid" : req.params.auctionid
+					},
+					{
+						"itemid": req.body.itemid,
+						"quantity": req.body.quantity,
+						"buyout": req.body.buyout
+					}
+				);
+				
+				var after = await Auction.findOne({ "auctionid" : req.params.auctionid });
+				
+				// Check the auction was saved correctly, by checking the save return value against the auction we gave it.
+				if (before != after) {
+					//200 OK
+					return res.status(200).send({message: "Auction " + req.params.auctionid + " has been edited.",});
+				} else {
+					// Error state.
+					return res.status(200).send({message: "The update operation succeeded, but no values were changed.",});
+				}
+				
+			} else {
+				return res.status(404).send({message: "Item by id " + req.body.itemid + " does not exist",});
+			}
+			
+		} catch (e) {
+			console.log(e);
 			if (e.errors) {
 				console.log(e.errors);
 				return res.status(500).send({message: e,});

@@ -2,7 +2,8 @@ const AUCTION_ID_FIELD = "auctionID";
 const GET_AUCTION_ROUTE = "/auctions/:auctionID";
 const DELETE_AUCTION_ROUTE = "/auctions/delete/:auctionID";
 const CREATE_AUCTION_ROUTE = "/auctions/create/";
-
+const EDIT_AUCTION_ROUTE = "/auctions/edit/:auctionID";
+const WOWHEAD_URL = "https://classic.wowhead.com/";
 
 var callbackAuctionID = 0;
 
@@ -175,6 +176,76 @@ function createAuction() {
 
 function handleCreateAuctionResponse(response) {
 
-	window.location.reload();
+	alert(JSON.parse(response.target.responseText).message);
 
+	window.location.reload(); 
+
+}
+
+function editAuction() {
+	try {
+
+		// XML HTTP request object.
+		var httpRequest = new XMLHttpRequest();
+
+		var auctionid = parseInt(document.getElementById("auctionid").value);
+		var playerid = parseInt(document.getElementById("playerid").value);
+		var itemid = parseInt(document.getElementById("itemid").value);
+		var quantity = parseInt(document.getElementById("qty").value);		
+		var buyoutg = parseInt(document.getElementById("buyoutg").value);
+		var buyouts = parseInt(document.getElementById("buyouts").value);
+		
+		var values = [auctionid, playerid, itemid, quantity, buyoutg, buyouts];
+		
+		var valid = true;
+		var intRegex = new RegExp('^[0-9]\d*$');
+
+		if (buyouts >= 100) {
+			buyouts = 99;
+		} else if (buyouts < 0) {
+			buyouts = 0;
+		} 
+
+		var i;
+		for (i = 0; i < values.length; i++) {
+			if (!Number.isInteger(values[i])) {
+				valid = false;
+			}
+		}
+			
+		if (valid) {
+			var buyout = joinFloat(buyoutg, buyouts);
+			// Read in data from form.
+			var payload = JSON.stringify(
+				{
+					"auctionid" : auctionid,
+					"playerid" : playerid,
+					"itemid" : itemid,
+					"quantity" : quantity,
+					"buyout" : buyout
+				}
+			);
+
+			// Specify the callback function.
+			httpRequest.addEventListener("load", handleEditAuctionResponse);
+
+			var route = EDIT_AUCTION_ROUTE.replace(":auctionID", auctionid);
+
+			// Set header and send payload.
+			httpRequest.open('POST', route);
+			httpRequest.setRequestHeader('Content-Type', 'application/json');
+			httpRequest.send(payload);
+		} else {
+			alert("Invalid number formats entered. Numeric fields must only have numbers.");
+		}
+	} catch (e) {
+		console.error(e);
+		alert("Invalid number formats entered. Numeric fields must only have numbers.");
+	}
+}
+
+function handleEditAuctionResponse(response) {
+	
+	document.getElementById("response").innerHTML = JSON.parse(response.target.responseText).message;
+	
 }

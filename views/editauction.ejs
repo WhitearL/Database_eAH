@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>WoW eAH</title>
+		<link rel="icon" type="image/png" href="/img/favicon.ico" />
+		<script src="/script/AuctionManagementHandler.js"></script>
+	</head>
+
+	<body align="center">
+
+		<%- include("common/navbar") -%>
+
+		<div style="text-align:center;">
+			<h1>Auction management for <%=player.username%></h1><br>
+			<h2>Editing auction id <%=auctionid%></h2>
+			<a href="/manage/<%=player.playerid%>">Go Back</a>
+			
+			<p id="response"></p>
+			
+			<!-- Create auction form -->
+			<table align="center">
+				<input type="hidden" id="auctionid" name="auctionid" value="<%=auctionid%>">
+			
+				<tr>
+					<td><label for="playerid">Player ID</label></td>
+					<td><input type="number" id="playerid" name="playerid" value="<%=player.playerid%>" readonly></td>
+				</tr>
+				
+				<tr>
+					<td><label for="itemid">Item ID</label></td>
+					<td><input type="number" name="itemid" id="itemid" value="<%=itemid%>" placeholder="WoW Item ID (Integer)" /></td>
+				</tr>
+				
+				<tr>
+					<td><label for="qty">Quantity</label></td>
+					<td><input type="number" name="qty" id="qty" value="<%=quantity%>" placeholder="QTY (Integer)" /></td>
+				</tr>
+
+				<tr>
+					<td><p>Original Buyout</p></td>
+					<td><input type="text" name="originBuyout" id="originBuyout" value="<%=buyout%>" readonly></td>
+					<td><img src="/img/money-gold.gif"/></td>
+					
+				</tr>
+				
+				<!-- Buyout price field -->
+				<tr>
+					<td><label for="buyoutg">Buyout</label></td>
+
+					<td><input type="number" id="buyoutg" name="buyoutg" value="" placeholder="Gold (Integer)" /></td>
+					<td><img src="/img/money-gold.gif"/></td>
+					
+					<td><input type="number" id="buyouts" name="buyouts" value="" placeholder="Silver (Integer)" /></td>
+					<td><img src="/img/money-silver.gif"/></td>
+				</tr>
+			</table>
+			
+			<!-- Submit button -->
+			<div style="text-align: center;">
+				<button type="submit" id="btnEdit" value="" onclick="editAuction()">Edit Auction</button>
+			</div>
+			
+		</div>
+
+	</body>
+</html>

@@ -12,7 +12,8 @@ const chalk = require("chalk");
 const bodyParser = require("body-parser");
 const fs = require('fs') 
 const resourcesDir = "resources";
-  
+const scriptDir = "script"; 
+ 
 // Auth id
 global.player = false;
 
@@ -64,7 +65,6 @@ app.get("/", (req, res) => {res.render("index");});
 // Basic page paths.
 app.get("/browse", auctionController.listAuctions);
 app.get("/manage/:playerid", auctionController.listPlayerAuctions);
-app.get("/manage", (req, res) => {res.render("common/loginwarning");});
 app.get("/analyse", (req, res) => {res.render("analyse");});
 
 // Create player post and get routes
@@ -82,6 +82,23 @@ app.post("/auctions/delete/:auctionID", auctionController.deleteAuction);
 
 // Create auction route
 app.post("/auctions/create", auctionController.createAuction);
+
+// Edit auction route
+app.get("/auctions/edit/:auctionid", (req, res) => {
+	if (req.session.playerid) {
+		res.render("editauction", {
+			auctionid: req.params.auctionid,
+			itemid : req.query.itemid,
+			quantity : req.query.quantity,
+			buyout: req.query.buyout
+		});
+	} else {
+		res.render("common/loginwarning");
+	}
+});
+
+// Edit auction route
+app.post("/auctions/edit/:auctionid", auctionController.editAuction);
 
 // Login/logout routes.
 app.get("/login", (req, res) => {res.render("login");});
