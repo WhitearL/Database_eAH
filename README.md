@@ -1,4 +1,4 @@
-Joe,
+
 
 	Please install the app by running the following.
 		npm install
